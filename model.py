@@ -2,6 +2,9 @@ import cv2 as cv
 from PIL import Image
 import numpy as np
 from Hand import Hand
+import os
+from ultralytics import YOLO
+
 
 def getHsvInterval(bgrColor):
     bgrColor = np.uint8([[bgrColor]])
@@ -59,12 +62,23 @@ def detectHand(frame):
 
 handObj = Hand()
 cap = cv.VideoCapture(1)
+
+modelPath = os.path.join('runs', 'detect', 'train', 'weights', 'best.pt')
+model = YOLO(modelPath)
+
 while True:
     ret, frame = cap.read()
 
+    try:
+        gestureResult = model.predict(frame)
+        x1, y1, x2, y2, score, class_id = gestureResult
+        print(score, class_id)
+    except:
+        # print("smt went wrongq")
+        pass
+
     frame = handObj.detectFingersOnFrame(frame)
     cv.imshow("frame", frame)
-
     if cv.waitKey(1) & 0xFF == ord('q'):
         break
 
