@@ -1,0 +1,11 @@
+path: C:/Users/Abuka/OneDrive/Desktop/ComputerVision/FinalProject/dataset
+train: images/
+val: images/
+
+names:
+    0: point
+    1: click
+    2: highlight
+    3: scroll_up
+    4: scroll_down
+    5: view_all_tabs
